@@ -1,16 +1,21 @@
+import { CONFIG } from "../config/config.js";
+
 export function sendWhatsApp(data) {
-
   const message = `
-🚐 JomShuttle Booking
+🚐 *JomShuttle Booking*
 
-Service: ${data.service}
-Pickup: ${data.pickup}
 Name: ${data.name}
+Phone: ${data.phone}
+Service: ${data.service}
+
+Pickup: ${data.pickup}
+Dropoff: ${data.dropoff}
+
+Date: ${data.date}
+Time: ${data.time}
 `;
 
-  const number = "60123456789";
+  const url = `https://wa.me/${CONFIG.whatsappNumber}?text=${encodeURIComponent(message)}`;
 
-  window.open(
-    `https://wa.me/${number}?text=${encodeURIComponent(message)}`
-  );
+  window.open(url, "_blank");
 }
