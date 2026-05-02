@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Airport Transfer Kuala Lumpur | JomShuttle</title>
+<meta name="description" content="Private airport and interstate transfer in Kuala Lumpur. Reliable drivers, fast WhatsApp booking.">
+
+<link rel="stylesheet" href="../css/style.css">
+
+<style>
+body{font-family:-apple-system;margin:0;}
+.hero{height:70vh;background:url('../assets/kl.jpg') center/cover;display:flex;align-items:center;justify-content:center;color:white;position:relative;}
+.hero::after{content:"";position:absolute;inset:0;background:rgba(0,0,0,0.5);}
+.hero-content{position:relative;text-align:center;}
+.section{padding:40px 20px;max-width:1000px;margin:auto;}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;}
+.card{padding:20px;border-radius:10px;background:white;box-shadow:0 4px 10px rgba(0,0,0,0.1);}
+.sticky{position:fixed;bottom:0;width:100%;background:#0071c2;padding:15px;text-align:center;}
+.sticky button{background:#febb02;padding:12px 20px;border:none;border-radius:6px;}
+</style>
+</head>
+
+<body>
+
+<section class="hero">
+<div class="hero-content">
+<h1>Kuala Lumpur Transport</h1>
+<p>Airport & Interstate Shuttle Services</p>
+<button onclick="bookNow('Kuala Lumpur')">Book Now</button>
+</div>
+</section>
+
+<section class="section">
+<h2>🚐 Services</h2>
+<div class="cards">
+<div class="card"><h3>Airport Transfer</h3><p>KLIA / KLIA2 pickup & drop-off</p></div>
+<div class="card"><h3>Interstate Transfer</h3><p>Travel to any state comfortably</p></div>
+</div>
+</section>
+
+<section class="section">
+<h2>📍 Popular Routes</h2>
+<div class="cards">
+<div class="card">KL → KLIA</div>
+<div class="card">KL → Penang</div>
+<div class="card">KL → Johor Bahru</div>
+</div>
+</section>
+
+<section class="section">
+<h2>💎 Why Choose Us</h2>
+<div class="cards">
+<div class="card">✔ Experienced Drivers</div>
+<div class="card">✔ Comfortable MPV</div>
+<div class="card">✔ On-time Pickup</div>
+<div class="card">✔ Easy WhatsApp Booking</div>
+</div>
+</section>
+
+<div class="sticky">
+<button onclick="bookNow('Kuala Lumpur')">Book via WhatsApp</button>
+</div>
+
+<script type="module">
+import { sendWhatsApp } from "../js/whatsapp.js";
+import { sendEmail } from "../js/email.js";
+function bookNow(state){
+const data={name:"Customer",phone:"-",service:"Transfer",pickup:state,dropoff:"-",date:"-",time:"-"};
+sendWhatsApp(data);sendEmail(data);}
+window.bookNow=bookNow;
+</script>
+
+</body>
+</html>
