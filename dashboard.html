@@ -1,0 +1,24 @@
+<h2>Manage State Data</h2>
+
+<select id="state"></select>
+<textarea id="data"></textarea>
+
+<button onclick="save()">Save</button>
+
+<script type="module">
+
+import { db } from "./js/firebase.js";
+import { doc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
+
+window.save = async function () {
+  const state = document.getElementById("state").value;
+  const data = document.getElementById("data").value;
+
+  await setDoc(doc(db, "states", state), {
+    raw: data
+  });
+
+  alert("Saved");
+};
+
+</script>
