@@ -1,182 +1,72 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>JomShuttle State Transfer</title>
-<meta name="description" content="Reliable airport and interstate transport across Malaysia with JomShuttle.">
-
-<!-- Font Awesome (for icons) -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<title>JomShuttle</title>
+<meta name="description" content="">
 
 <link rel="stylesheet" href="css/style.css">
-
-<style>
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-  background: var(--bg, #fff);
-  color: var(--text, #111);
-}
-
-/* HERO */
-.hero {
-  height: 70vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(135deg, #0071c2, #00a6ff);
-  color: white;
-  text-align: center;
-  padding: 20px;
-}
-
-.hero-content i {
-  font-size: 60px;
-  margin-bottom: 15px;
-  color: #ffd166;
-}
-
-.hero h1 {
-  font-size: 34px;
-  margin: 10px 0;
-}
-
-/* SECTIONS */
-.section {
-  max-width: 1000px;
-  margin: auto;
-  padding: 40px 20px;
-}
-
-.cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 15px;
-}
-
-.card {
-  background: #fff;
-  border-radius: 10px;
-  padding: 18px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-}
-
-/* BUTTON */
-button {
-  background: #febb02;
-  border: none;
-  padding: 12px 18px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: bold;
-}
-
-/* STICKY CTA */
-.sticky {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  background: #0071c2;
-  padding: 12px;
-  text-align: center;
-}
-
-.sticky button {
-  width: 90%;
-}
-</style>
-
 </head>
 
 <body>
 
-<!-- HERO -->
 <section class="hero">
   <div class="hero-content">
-    <i id="stateIcon"></i>
     <h1 id="title"></h1>
     <p id="desc"></p>
-    <button onclick="bookNow()">Book Now via WhatsApp</button>
+    <button onclick="bookNow()">Book Now</button>
   </div>
 </section>
 
-<!-- ROUTES -->
 <section class="section">
   <h2>📍 Popular Routes</h2>
   <div id="routes" class="cards"></div>
 </section>
 
-<!-- HIGHLIGHTS -->
 <section class="section">
   <h2>💎 Why Choose Us</h2>
   <div id="highlights" class="cards"></div>
 </section>
 
-<!-- STICKY BUTTON -->
-<div class="sticky">
-  <button onclick="bookNow()">🚐 Book Instant Transfer</button>
-</div>
-
-<!-- SCRIPT -->
 <script type="module">
 
 import { STATES } from "./js/stateData.js";
 import { sendWhatsApp } from "./js/whatsapp.js";
 import { sendEmail } from "./js/email.js";
 
-/* Get state from URL:
-   state.html?state=kuala-lumpur
-*/
-const params = new URLSearchParams(window.location.search);
-const key = params.get("state");
+const slug = new URLSearchParams(window.location.search).get("state");
+const data = STATES[slug];
 
-const data = STATES[key];
-
-/* ERROR HANDLING */
-if (!data) {
-  document.body.innerHTML = "<h2 style='padding:20px'>State not found</h2>";
-}
-
-/* HERO DATA */
-document.getElementById("title").innerText = data.name;
+document.getElementById("title").innerText = data.name + " Transport";
 document.getElementById("desc").innerText = data.description;
-document.getElementById("stateIcon").className = data.icon;
 
-/* ROUTES */
+document.title = "Airport Transfer " + data.name + " | JomShuttle";
+
+const routesEl = document.getElementById("routes");
 data.routes.forEach(r => {
-  document.getElementById("routes").innerHTML += `
-    <div class="card">
-      <i class="fa-solid fa-route"></i><br>
-      ${r}
-    </div>
-  `;
+  routesEl.innerHTML += `<div class="card">${r}</div>`;
 });
 
-/* HIGHLIGHTS */
+const hlEl = document.getElementById("highlights");
 data.highlights.forEach(h => {
-  document.getElementById("highlights").innerHTML += `
-    <div class="card">
-      <i class="fa-solid fa-star"></i><br>
-      ${h}
-    </div>
-  `;
+  hlEl.innerHTML += `<div class="card">${h}</div>`;
 });
 
-/* BOOKING FUNCTION */
-window.bookNow = function () {
-
+function bookNow(){
   const booking = {
-    name: "Customer",
-    service: "Transfer",
-    pickup: data.name,
-    dropoff: "-"
+    name:"Customer",
+    phone:"-",
+    service:"Transfer",
+    pickup:data.name,
+    dropoff:"-"
   };
-
   sendWhatsApp(booking);
   sendEmail(booking);
-};
+}
+
+window.bookNow = bookNow;
 
 </script>
 
