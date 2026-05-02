@@ -1,7 +1,14 @@
-import { db } from "./firebase.js";
+import { CONFIG } from "../config/config.js";
 
 export function sendEmail(data) {
-  emailjs.send("SERVICE_ID", "TEMPLATE_ID", {
-    message: JSON.stringify(data)
+  emailjs.init(CONFIG.emailJS.publicKey);
+
+  CONFIG.emails.forEach(email => {
+    emailjs.send(CONFIG.emailJS.serviceID, CONFIG.emailJS.templateID, {
+      to_email: email,
+      ...data
+    })
+    .then(() => console.log("Email sent to " + email))
+    .catch(err => console.error(err));
   });
 }
